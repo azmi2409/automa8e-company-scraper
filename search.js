@@ -1,8 +1,7 @@
 import * as cheerio from "cheerio";
 import { startBrowser } from "./startBrowser.cjs";
 
-async function search({ URL, query }) {
-    const browser = await startBrowser()
+async function search({ browser, URL, query }) {
     const page = await browser.newPage();
 
     await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36");
@@ -30,10 +29,6 @@ async function search({ URL, query }) {
     }).get();
 
     const filteredData = data.filter(({ status }) => status !== '');
-
-    setTimeout(() => {
-        browser.close();
-    }, 1000);
 
     return filteredData;
 
