@@ -17,7 +17,7 @@ async function profile(browser, URL) {
 
     const $ = cheerio.load(body);
     const data = {
-        title: $('.card-title').text(),
+        title: $('h1.card-title').text(),
     }
 
     return data;
