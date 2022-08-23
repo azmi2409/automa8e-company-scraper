@@ -20,7 +20,7 @@ async function search({ URL, query, withDetails }) {
             status: text[0]?.trim() ?? '',
             uen: text[1]?.replace('UEN: ', '')?.trim() ?? '',
             address: text[2]?.trim() ?? '',
-            link: $(el).attr('href') ?? '',
+            link: URL + ($(el).attr('href') ?? ''),
         }
     }).get();
 
@@ -30,13 +30,11 @@ async function search({ URL, query, withDetails }) {
         console.log('No result found', $.html());
     }
 
-    for (const el of filteredData) {
-        if (withDetails) {
-            const profileData = await profile(el.link);
-            el.profile = profileData;
-        }
-    }
-
+    // const arrayOfLink = filteredData.map(({ link }) => link);
+    // const batch = await new Promise.all(browser.requestBatch({
+    //     urls: arrayOfLink,
+    // }));
+    // console.log(batch);
     return filteredData;
 
 }
