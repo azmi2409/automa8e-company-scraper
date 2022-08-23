@@ -26,7 +26,7 @@ async function search({ URL, query, withDetails }) {
         if (err) console.log(err);
     });
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         executablePath: '/usr/bin/chromium-browser',
         args: ["--no-sandbox",
             "--disable-setuid-sandbox",
@@ -64,9 +64,9 @@ async function search({ URL, query, withDetails }) {
 
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
-    await page.waitForTimeout(1000);
+    // await page.waitForTimeout(1000);
     // console.log("Cracking Captcha......");
-    // await page.solveRecaptchas();
+    await page.solveRecaptchas();
     // await page.waitForTimeout(1000);
     // console.log("Scraping the page......");
 
