@@ -7,30 +7,16 @@ const URL = "https://www.sgpbusiness.com/";
 async function main(withDetails = false) {
     let listOfCompany = [];
     let datas = []
-    console.time("log");
-    // const getProfile = async (URL) => {
-    //     const data = await profile(browser, URL);
-    //     return data;
-    // }
+    console.time("time elapsed");
     try {
-        datas = await search({ URL, query });
-        // if (withDetails) {
-        //     let i = 0;
-        //     for (const data of datas) {
-        //         const company = await getProfile(data.link);
-        //         if (company?.UEN) {
-        //             datas[i].details = company;
-        //         }
-        //         i++;
-        //     }
-        // }
+        datas = await search({ URL, query, withDetails });
     }
     catch (err) {
         console.log(err);
     }
     finally {
         console.log(datas)
-        console.timeEnd("log")
+        console.timeEnd("time elapsed")
         return datas
     }
 

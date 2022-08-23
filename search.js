@@ -2,12 +2,13 @@ import * as cheerio from "cheerio";
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import randomUseragent from 'random-useragent';
+import { profile } from "./profile.js";
 
 const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36';
 
 puppeteer.use(StealthPlugin());
 
-async function search({ URL, query }) {
+async function search({ URL, query, withDetails }) {
     const browser = await puppeteer.launch({
         headless: true,
         // executablePath: '/usr/bin/chromium-browser',
@@ -24,6 +25,7 @@ async function search({ URL, query }) {
             "--lang=en-US,en",
             "--disable-extensions",],
     });
+    console.log("Opening the browser......");
     //set user agent
 
     const page = await browser.newPage();
@@ -54,7 +56,6 @@ async function search({ URL, query }) {
     );
 
     const $ = cheerio.load(body);
-    console.log($.html());
     const data = $('.list-group').children().map((i, el) => {
         const text = $(el).find('.text-nowrap').map((i, el2) => {
             return $(el2).text();
