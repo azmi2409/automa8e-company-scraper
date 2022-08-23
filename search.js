@@ -58,7 +58,7 @@ async function search({ URL, query, withDetails }) {
 
     await page.waitForTimeout(1000);
     await page.solveRecaptchas();
-    await page.reload({ waitUntil: 'networkidle0' });
+    await page.waitForTimeout(1000);
 
     const body = await page.evaluate(() => {
         return document.body.innerHTML;
