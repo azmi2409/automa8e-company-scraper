@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
 import randomUseragent from 'random-useragent';
+import Xvfb from "xvfb";
 import { profile } from "./profile.js";
 
 const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36';
@@ -17,6 +18,13 @@ puppeteer.use(RecaptchaPlugin({
 }));
 
 async function search({ URL, query, withDetails }) {
+    const xvfb = new Xvfb({
+        silent: true,
+        xvfb_args: ["-screen", "0", '1280x720x24', "-ac"]
+    });
+    xvfb.start((err) => {
+        if (err) console.log(err);
+    });
     const browser = await puppeteer.launch({
         headless: true,
         executablePath: '/usr/bin/chromium-browser',
@@ -88,6 +96,7 @@ async function search({ URL, query, withDetails }) {
     setTimeout(async () => {
         // await page.close();
         await browser.close();
+        xvfb.stop();
     }
         , 100);
     return filteredData;

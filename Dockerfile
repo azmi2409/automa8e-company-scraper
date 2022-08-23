@@ -9,6 +9,7 @@ RUN apk update && apk add --no-cache nmap && \
     apk add --no-cache \
     chromium \
     harfbuzz \
+    xvfb \
     "freetype>2.8" \
     ttf-freefont \
     nss
