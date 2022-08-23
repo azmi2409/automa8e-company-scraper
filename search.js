@@ -1,12 +1,20 @@
 import * as cheerio from "cheerio";
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
 import randomUseragent from 'random-useragent';
 import { profile } from "./profile.js";
 
 const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36';
 
 puppeteer.use(StealthPlugin());
+puppeteer.use(RecaptchaPlugin({
+    provider: {
+        id: '2captcha',
+        token: 'e490bfc9e1c8a112e496ceb2683ac3a7' // REPLACE THIS WITH YOUR OWN 2CAPTCHA API KEY ⚡
+    },
+    visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
+}));
 
 async function search({ URL, query, withDetails }) {
     const browser = await puppeteer.launch({
@@ -49,6 +57,7 @@ async function search({ URL, query, withDetails }) {
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
     await page.waitForTimeout(5000);
+    await page.solveRecaptchas();
 
     const body = await page.evaluate(() => {
         return document.body.innerHTML;
