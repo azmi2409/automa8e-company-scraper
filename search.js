@@ -58,6 +58,8 @@ async function search({ URL, query, withDetails }) {
     );
 
     const $ = cheerio.load(body);
+    console.log("Scraping the page......");
+    console.log($.html());
     const data = $('.list-group').children().map((i, el) => {
         const text = $(el).find('.text-nowrap').map((i, el2) => {
             return $(el2).text();
