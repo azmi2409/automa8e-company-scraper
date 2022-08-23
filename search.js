@@ -24,12 +24,11 @@ async function search({ browser, URL, query }) {
             status: text[0]?.trim() ?? '',
             uen: text[1]?.replace('UEN: ', '') ?? '',
             address: text[2]?.trim() ?? '',
-            link: URL + "/" + ($(el).attr('href') ?? ''),
+            link: URL + ($(el).attr('href') ?? ''),
         }
     }).get();
 
     const filteredData = data.filter(({ status }) => status !== '');
-
     return filteredData;
 
 }

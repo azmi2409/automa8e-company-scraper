@@ -7,6 +7,7 @@ const URL = "https://www.sgpbusiness.com/";
 
 async function main() {
     const browser = await startBrowser();
+    console.time("log")
 
     const getProfile = async (URL) => {
         const data = await profile(browser, URL);
@@ -15,13 +16,13 @@ async function main() {
     try {
         const data = await search({ browser, URL, query });
         console.log(data);
-        await getProfile(data[0].link);
     }
     catch (err) {
         console.log(err);
     }
     finally {
         await browser.close();
+        console.timeEnd("log")
     }
 
 }
