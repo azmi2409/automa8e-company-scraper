@@ -56,7 +56,7 @@ async function search({ URL, query, withDetails }) {
 
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(6000);
     await page.solveRecaptchas();
 
     const body = await page.evaluate(() => {
