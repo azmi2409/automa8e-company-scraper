@@ -1,84 +1,14 @@
 import * as cheerio from "cheerio";
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
-import randomUseragent from 'random-useragent';
-import Xvfb from "xvfb";
+import { browser } from "./phantomcloud.js";
 import { profile } from "./profile.js";
 
-const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36';
-
-puppeteer.use(StealthPlugin());
-puppeteer.use(RecaptchaPlugin({
-    provider: {
-        id: '2captcha',
-        token: 'e490bfc9e1c8a112e496ceb2683ac3a7' // REPLACE THIS WITH YOUR OWN 2CAPTCHA API KEY ⚡
-    },
-    visualFeedback: true // colorize reCAPTCHAs (violet = detected, green = solved)
-}));
-
 async function search({ URL, query, withDetails }) {
-    const xvfb = new Xvfb({
-        silent: true,
-        xvfb_args: ["-screen", "0", '1280x720x24', "-ac"]
-    });
-    xvfb.start((err) => {
-        if (err) console.log(err);
-    });
-    const browser = await puppeteer.launch({
-        // headless: false,
-        executablePath: '/usr/bin/chromium-browser',
-        // args: ["--no-sandbox",
-        //     "--disable-setuid-sandbox",
-        //     "--disable-accelerated-2d-canvas",
-        //     "--no-zygote",
-        //     "--renderer-process-limit=1",
-        //     "--no-first-run",
-        //     "--ignore-certificate-errors",
-        //     "--ignore-certificate-errors-spki-list",
-        //     "--disable-dev-shm-usage",
-        //     "--disable-infobars",
-        //     "--lang=en-US,en",
-        //     "--disable-extensions",],
-        headless: false,
-        defaultViewport: null, //otherwise it defaults to 800x600
-        args: ['--no-sandbox', '--start-fullscreen', '--display=' + xvfb._display]
-    });
-    console.log("Opening the browser......");
-    //set user agent
-
-    const page = await browser.newPage();
-    const userAgent = randomUseragent.getRandom();
-    const UA = userAgent || USER_AGENT;
-
-    // //Randomize viewport size
-    // await page.setViewport({
-    //     width: 1920 + Math.floor(Math.random() * 100),
-    //     height: 3000 + Math.floor(Math.random() * 100),
-    //     deviceScaleFactor: 1,
-    //     hasTouch: false,
-    //     isLandscape: false,
-    //     isMobile: false,
-    // });
-
-    await page.setUserAgent(UA);
-    await page.setJavaScriptEnabled(true);
-    await page.setDefaultNavigationTimeout(0);
-
-    await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
-
-    await page.waitForTimeout(5000);
-    console.log("Cracking Captcha......");
-    await page.solveRecaptchas();
-    await page.waitForTimeout(1000);
-    // console.log("Scraping the page......");
-
-    const body = await page.evaluate(() => {
-        return document.body.innerHTML;
-    }).catch(err => {
-        console.log(err);
+    const pageUrl = {
+        url: `${URL}search?q=${query}`,
+        renderType: "html",
     }
-    );
+    const res = await browser.requestSingle(pageUrl);
+    const body = res.content.data;
 
     const $ = cheerio.load(body);
     const data = $('.list-group').children().map((i, el) => {
@@ -90,7 +20,7 @@ async function search({ URL, query, withDetails }) {
             status: text[0]?.trim() ?? '',
             uen: text[1]?.replace('UEN: ', '')?.trim() ?? '',
             address: text[2]?.trim() ?? '',
-            link: URL + ($(el).attr('href') ?? ''),
+            link: $(el).attr('href') ?? '',
         }
     }).get();
 
@@ -99,13 +29,6 @@ async function search({ URL, query, withDetails }) {
     if (data.length === 0) {
         console.log('No result found', $.html());
     }
-
-    setTimeout(async () => {
-        // await page.close();
-        await browser.close();
-        xvfb.stop();
-    }
-        , 100);
     return filteredData;
 
 }
