@@ -45,30 +45,30 @@ async function search({ URL, query, withDetails }) {
     //set user agent
 
     const page = await browser.newPage();
-    const userAgent = randomUseragent.getRandom();
-    const UA = userAgent || USER_AGENT;
+    // const userAgent = randomUseragent.getRandom();
+    // const UA = userAgent || USER_AGENT;
 
-    //Randomize viewport size
-    await page.setViewport({
-        width: 1920 + Math.floor(Math.random() * 100),
-        height: 3000 + Math.floor(Math.random() * 100),
-        deviceScaleFactor: 1,
-        hasTouch: false,
-        isLandscape: false,
-        isMobile: false,
-    });
+    // //Randomize viewport size
+    // await page.setViewport({
+    //     width: 1920 + Math.floor(Math.random() * 100),
+    //     height: 3000 + Math.floor(Math.random() * 100),
+    //     deviceScaleFactor: 1,
+    //     hasTouch: false,
+    //     isLandscape: false,
+    //     isMobile: false,
+    // });
 
-    await page.setUserAgent(UA);
-    await page.setJavaScriptEnabled(true);
-    await page.setDefaultNavigationTimeout(0);
+    // await page.setUserAgent(UA);
+    // await page.setJavaScriptEnabled(true);
+    // await page.setDefaultNavigationTimeout(0);
 
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
     await page.waitForTimeout(1000);
-    console.log("Cracking Captcha......");
-    await page.solveRecaptchas();
-    await page.waitForTimeout(1000);
-    console.log("Scraping the page......");
+    // console.log("Cracking Captcha......");
+    // await page.solveRecaptchas();
+    // await page.waitForTimeout(1000);
+    // console.log("Scraping the page......");
 
     const body = await page.evaluate(() => {
         return document.body.innerHTML;
