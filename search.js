@@ -33,7 +33,7 @@ async function search({ browser, URL, query }) {
     setTimeout(() => {
         page.close();
     }
-        , 300);
+        , 100);
     return filteredData;
 
 }
