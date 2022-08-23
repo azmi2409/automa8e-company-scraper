@@ -48,8 +48,8 @@ async function search({ URL, query, withDetails }) {
     //set user agent
 
     const page = await browser.newPage();
-    // const userAgent = randomUseragent.getRandom();
-    // const UA = userAgent || USER_AGENT;
+    const userAgent = randomUseragent.getRandom();
+    const UA = userAgent || USER_AGENT;
 
     // //Randomize viewport size
     // await page.setViewport({
@@ -61,9 +61,9 @@ async function search({ URL, query, withDetails }) {
     //     isMobile: false,
     // });
 
-    // await page.setUserAgent(UA);
-    // await page.setJavaScriptEnabled(true);
-    // await page.setDefaultNavigationTimeout(0);
+    await page.setUserAgent(UA);
+    await page.setJavaScriptEnabled(true);
+    await page.setDefaultNavigationTimeout(0);
 
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
