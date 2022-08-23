@@ -93,6 +93,10 @@ async function search({ URL, query, withDetails }) {
 
     const filteredData = data.filter(({ status }) => status !== '');
 
+    if (data.length === 0) {
+        console.log('No result found', $.html());
+    }
+
     setTimeout(async () => {
         // await page.close();
         await browser.close();
