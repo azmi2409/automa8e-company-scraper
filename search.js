@@ -11,7 +11,7 @@ puppeteer.use(StealthPlugin());
 async function search({ URL, query, withDetails }) {
     const browser = await puppeteer.launch({
         headless: true,
-        // executablePath: '/usr/bin/chromium-browser',
+        executablePath: '/usr/bin/chromium-browser',
         args: ["--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-accelerated-2d-canvas",
