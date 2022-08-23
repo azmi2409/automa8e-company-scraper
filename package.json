@@ -13,6 +13,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "nodemon": "^2.0.19",
-    "puppeteer": "^16.2.0"
+    "puppeteer": "^16.2.0",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "^2.11.1"
   }
 }

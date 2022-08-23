@@ -1,7 +1,9 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 async function startBrowser() {
 	let browser;
+	puppeteer.use(StealthPlugin());
 	try {
 		console.log("Opening the browser......");
 		browser = await puppeteer.launch({
