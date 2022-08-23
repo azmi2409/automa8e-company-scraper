@@ -15,6 +15,7 @@ async function search({ browser, URL, query }) {
     );
 
     const $ = cheerio.load(body);
+    console.log($)
     const data = $('.list-group').children().map((i, el) => {
         const text = $(el).find('.text-nowrap').map((i, el2) => {
             return $(el2).text();
