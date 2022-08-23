@@ -64,10 +64,10 @@ async function search({ URL, query, withDetails }) {
 
     await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
-    // await page.waitForTimeout(1000);
-    // console.log("Cracking Captcha......");
+    await page.waitForTimeout(5000);
+    console.log("Cracking Captcha......");
     await page.solveRecaptchas();
-    // await page.waitForTimeout(1000);
+    await page.waitForTimeout(1000);
     // console.log("Scraping the page......");
 
     const body = await page.evaluate(() => {
