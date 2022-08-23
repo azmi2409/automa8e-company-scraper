@@ -5,8 +5,8 @@ async function profile(browser, URL) {
     //TODO: get profile data from URL
     const page = await browser.newPage();
 
-    await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36");
     await page.goto(URL);
+    await page.waitForTimeout(1000);
 
     const body = await page.evaluate(() => {
         const docs = document.body.innerHTML;

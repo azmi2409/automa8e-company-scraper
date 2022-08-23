@@ -8,7 +8,7 @@ async function startBrowser() {
 		console.log("Opening the browser......");
 		browser = await puppeteer.launch({
 			headless: true,
-			timeout: 0,
+			executablePath: '/usr/bin/chromium-browser',
 			args: ["--disable-setuid-sandbox", "--no-sandbox"],
 			'ignoreHTTPSErrors': true
 		});
