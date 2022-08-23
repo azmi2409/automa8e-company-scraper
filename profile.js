@@ -17,6 +17,7 @@ async function profile(browser, URL) {
     );
 
     const $ = cheerio.load(body);
+    console.log($)
     let profile = $('#Corporate-Profile')?.children()?.find('.list-group-horizontal-lg > li')?.map((i, el) => {
         const elm = cheerio.load(el)
         elm('small').remove();
