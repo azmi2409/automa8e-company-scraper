@@ -26,20 +26,23 @@ async function search({ URL, query, withDetails }) {
         if (err) console.log(err);
     });
     const browser = await puppeteer.launch({
-        headless: false,
+        // headless: false,
         executablePath: '/usr/bin/chromium-browser',
-        args: ["--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-accelerated-2d-canvas",
-            "--no-zygote",
-            "--renderer-process-limit=1",
-            "--no-first-run",
-            "--ignore-certificate-errors",
-            "--ignore-certificate-errors-spki-list",
-            "--disable-dev-shm-usage",
-            "--disable-infobars",
-            "--lang=en-US,en",
-            "--disable-extensions",],
+        // args: ["--no-sandbox",
+        //     "--disable-setuid-sandbox",
+        //     "--disable-accelerated-2d-canvas",
+        //     "--no-zygote",
+        //     "--renderer-process-limit=1",
+        //     "--no-first-run",
+        //     "--ignore-certificate-errors",
+        //     "--ignore-certificate-errors-spki-list",
+        //     "--disable-dev-shm-usage",
+        //     "--disable-infobars",
+        //     "--lang=en-US,en",
+        //     "--disable-extensions",],
+        headless: false,
+        defaultViewport: null, //otherwise it defaults to 800x600
+        args: ['--no-sandbox', '--start-fullscreen', '--display=' + xvfb._display]
     });
     console.log("Opening the browser......");
     //set user agent
