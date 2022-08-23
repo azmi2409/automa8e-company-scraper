@@ -4,27 +4,44 @@ import { startBrowser } from "./startBrowser.cjs";
 //get query from command
 const query = process.argv[2] || 'aUtoma8e';
 const URL = "https://www.sgpbusiness.com/";
+const browser = await startBrowser();
 
-async function main() {
-    const browser = await startBrowser();
-    console.time("log")
-
+async function main(withDetails = true) {
+    let listOfCompany = [];
+    let datas = []
+    console.time("log");
     const getProfile = async (URL) => {
         const data = await profile(browser, URL);
-        console.log(data);
+        return data;
     }
     try {
-        const data = await search({ browser, URL, query });
-        console.log(data);
+        datas = await search({ browser, URL, query });
+        if (withDetails) {
+            let i = 0;
+            for (const data of datas) {
+                const company = await getProfile(data.link);
+                if (company?.UEN) {
+                    datas[i].details = company;
+                }
+                i++;
+            }
+        }
     }
     catch (err) {
         console.log(err);
     }
     finally {
-        await browser.close();
+        console.log(datas)
         console.timeEnd("log")
+        return datas
     }
 
 }
 
-main();
+if (query.length >= 4) {
+    main();
+} else {
+    console.log("Please enter a valid query (Min 4 char)");
+}
+
+process.on('exit', async () => await browser.close());

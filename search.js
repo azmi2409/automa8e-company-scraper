@@ -22,13 +22,18 @@ async function search({ browser, URL, query }) {
         return {
             title: $(el).find('.list-group-item-heading').text(),
             status: text[0]?.trim() ?? '',
-            uen: text[1]?.replace('UEN: ', '') ?? '',
+            uen: text[1]?.replace('UEN: ', '')?.trim() ?? '',
             address: text[2]?.trim() ?? '',
             link: URL + ($(el).attr('href') ?? ''),
         }
     }).get();
 
     const filteredData = data.filter(({ status }) => status !== '');
+
+    setTimeout(() => {
+        page.close();
+    }
+        , 300);
     return filteredData;
 
 }
