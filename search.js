@@ -29,6 +29,14 @@ async function search({ URL, query, withDetails }) {
     if (data.length === 0) {
         console.log('No result found', $.html());
     }
+
+    for (const el of filteredData) {
+        if (withDetails) {
+            const profileData = await profile(el.link);
+            el.profile = profileData;
+        }
+    }
+
     return filteredData;
 
 }

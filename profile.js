@@ -1,20 +1,15 @@
 import * as cheerio from "cheerio";
-import { startBrowser } from "./startBrowser.cjs";
+import { browser } from "./phantomcloud.js";
 
-async function profile(browser, URL) {
+async function profile(URL) {
     //TODO: get profile data from URL
-    const page = await browser.newPage();
-
-    await page.goto(URL);
-    await page.waitForTimeout(1000);
-
-    const body = await page.evaluate(() => {
-        const docs = document.body.innerHTML;
-        return document.body.innerHTML;
-    }).catch(err => {
-        console.log(err);
+    const pageUrl = {
+        url: URL,
+        renderType: "html",
     }
-    );
+
+    const res = await browser.requestSingle(pageUrl);
+    const body = res.content.data;
 
     const $ = cheerio.load(body);
     let profile = $('#Corporate-Profile')?.children()?.find('.list-group-horizontal-lg > li')?.map((i, el) => {
@@ -46,11 +41,6 @@ async function profile(browser, URL) {
             [label]: value
         }
     }).get();
-
-    setTimeout(() => {
-        page.close();
-    }
-        , 300);
 
     const data = [...profile, ...contact, ...industry].reduce((acc, curr) => ({ ...acc, ...curr }), {});
     return data;
