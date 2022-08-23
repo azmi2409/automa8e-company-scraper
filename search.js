@@ -1,12 +1,11 @@
 import * as cheerio from "cheerio";
 import puppeteer from 'puppeteer-extra';
-
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
-import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha';
-// import { hcaptcha } from 'puppeteer-hcaptcha';
+import randomUseragent from 'random-useragent';
+
+const USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36';
 
 puppeteer.use(StealthPlugin());
-puppeteer.use(RecaptchaPlugin());
 
 async function search({ URL, query }) {
     const browser = await puppeteer.launch({
@@ -23,24 +22,29 @@ async function search({ URL, query }) {
             "--disable-dev-shm-usage",
             "--disable-infobars",
             "--lang=en-US,en",
-            "--window-size=1920x1080",
             "--disable-extensions",],
     });
     //set user agent
 
     const page = await browser.newPage();
-    await page.setUserAgent('Chrome/77.0.3865.90');
+    const userAgent = randomUseragent.getRandom();
+    const UA = userAgent || USER_AGENT;
+
+    //Randomize viewport size
+    await page.setViewport({
+        width: 1920 + Math.floor(Math.random() * 100),
+        height: 3000 + Math.floor(Math.random() * 100),
+        deviceScaleFactor: 1,
+        hasTouch: false,
+        isLandscape: false,
+        isMobile: false,
+    });
+
+    await page.setUserAgent(UA);
     await page.setJavaScriptEnabled(true);
-    await page.setViewport({ width: 800, height: 600 });
-
-
-    await page.goto(`${URL}search?q=${query}`);
     await page.setDefaultNavigationTimeout(0);
 
-    // Call hcaptcha method passing in our page
-    // await hcaptcha(page);
-    await page.waitForTimeout(5000);
-    await page.solveRecaptchas()
+    await page.goto(`${URL}search?q=${query}`, { waitUntil: 'networkidle0' });
 
     const body = await page.evaluate(() => {
         return document.body.innerHTML;
