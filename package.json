@@ -15,6 +15,8 @@
     "nodemon": "^2.0.19",
     "puppeteer": "^16.2.0",
     "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.1"
+    "puppeteer-extra-plugin-recaptcha": "^3.6.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.1",
+    "puppeteer-hcaptcha": "^4.1.6"
   }
 }

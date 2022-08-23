@@ -9,7 +9,7 @@ async function startBrowser() {
 		browser = await puppeteer.launch({
 			headless: true,
 			executablePath: '/usr/bin/chromium-browser',
-			args: ["--disable-setuid-sandbox", "--no-sandbox"],
+			args: ["--disable-setuid-sandbox", "--no-sandbox", "--disable-gpu"],
 			'ignoreHTTPSErrors': true
 		});
 	} catch (err) {
