@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer-extra')
-const cheerio = require('cheerio')
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+import puppeteer from 'puppeteer-extra'
+import * as cheerio from 'cheerio'
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-async function search(searchQuery = 'aUtoma8e') {
+const search = (params = 'aUtoma8e') => {
     puppeteer.use(StealthPlugin())
     puppeteer.launch({
         headless: true
@@ -17,7 +17,7 @@ async function search(searchQuery = 'aUtoma8e') {
         // await page.click('#pt1:r1:0:cBT')
 
         await page.waitForSelector('input[name="pt1:r1:0:it1"]')
-        await page.$eval('input[name="pt1:r1:0:it1"]', el => el.value = searchQuery)
+        await page.$eval('input[name="pt1:r1:0:it1"]', el => el.value = `${params}`)
         await page.click('.uenSearchButton');
 
         await page.waitForSelector('span.uenlabel')
@@ -53,4 +53,4 @@ async function search(searchQuery = 'aUtoma8e') {
     })
 }
 
-module.exports = search
+export { search }

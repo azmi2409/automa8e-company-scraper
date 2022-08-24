@@ -1,4 +1,4 @@
-import search from "./uensg.cjs";
+import { search } from "./uensg.js";
 import { profile } from "./profile.js";
 //get query from command
 const query = process.argv[2] || 'aUtoma8e';
@@ -6,6 +6,7 @@ const URL = "https://www.sgpbusiness.com/";
 
 async function main(withDetails = false) {
     try {
+        console.log(query)
         const data = await search(query);
         return data;
     }
