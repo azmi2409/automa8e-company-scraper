@@ -50,7 +50,7 @@ const search = async (params = 'aUtoma8e') => {
     await browser.close()
     console.timeEnd("fetch time")
     if (data.length > 0) {
-        return data[0]
+        return data
     }
 }
 
