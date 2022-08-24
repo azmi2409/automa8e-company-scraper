@@ -6,7 +6,6 @@ const URL = "https://www.sgpbusiness.com/";
 
 async function main(withDetails = false) {
     try {
-        console.log(query)
         const data = await search(query);
         return data;
     }
@@ -17,7 +16,7 @@ async function main(withDetails = false) {
 }
 
 if (query.length >= 4) {
-    main();
+    main().then(data => console.log(data));
 } else {
     console.log("Please enter a valid query (Min 4 char)");
 }
