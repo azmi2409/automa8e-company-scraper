@@ -30,7 +30,7 @@ const search = async (params = 'aUtoma8e') => {
     const data = $('.af_panelFormLayout_content-cell > .af_panelGroupLayout').map((i, el) => {
         if (i > 0) {
             const label = $(el).find('span.uenlabel').map((i, el2) => {
-                return $(el2).text();
+                return $(el2).text().replace(':', '');
             }).get();
             const value = $(el).find('.bizpara1 , .bizpara2').map((i, el2) => {
                 if ($(el2).text()) {
