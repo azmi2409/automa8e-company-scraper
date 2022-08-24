@@ -15,6 +15,8 @@ RUN apk update && apk add --no-cache nmap && \
     nss
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ENV SERVER_PORT 4000
+ENV SERVER_HOST 0.0.0.0
 
 COPY package.json /app/
 
