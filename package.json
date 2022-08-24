@@ -7,11 +7,12 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js 202200010"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
+    "fastify": "^4.5.2",
     "nodemon": "^2.0.19",
     "phantomjscloud": "^3.5.5",
     "puppeteer": "^16.2.0",
