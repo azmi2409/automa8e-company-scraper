@@ -1,6 +1,5 @@
 import fastify from "fastify";
 import { search } from "./scraper/uensg.js";
-import fastifyBearerAuth from "@fastify/bearer-auth";
 
 const token = process.env.TOKEN || "";
 let keys
@@ -16,7 +15,7 @@ const server = fastify({
 
 //check request bearer token
 if (keys) {
-    server.register(fastifyBearerAuth, { keys })
+    server.register(import("@fastify/bearer-auth"), { keys })
 }
 
 await server.register(import('@fastify/rate-limit'), {
