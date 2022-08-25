@@ -5,6 +5,11 @@ const server = fastify({
     logger: true,
 });
 
+await server.register(import('@fastify/rate-limit'), {
+    max: 30,
+    timeWindow: '1 minute'
+})
+
 const baseAPI = "/api/v1";
 const api = baseAPI + "/search";
 

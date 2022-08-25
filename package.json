@@ -11,6 +11,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@fastify/rate-limit": "^7.3.0",
     "cheerio": "^1.0.0-rc.12",
     "fastify": "^4.5.2",
     "nodemon": "^2.0.19",
