@@ -7,8 +7,9 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - "SERVER_PORT=4000"
-      - "NODE_ENV=production"
-      - "SERVER_HOST=0.0.0.0"
-      - "SERVER_TIMEOUT=5000"
+      - "SERVER_PORT=4000" # port to listen on
+      - "NODE_ENV=production" 
+      - "SERVER_HOST=0.0.0.0" # listen on all interfaces
+      - "SERVER_TIMEOUT=5000" #timeout in ms
+      - "TOKEN=" #Set your bearer token here
     command: npm start
