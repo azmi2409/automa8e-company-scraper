@@ -10,12 +10,21 @@ const api = baseAPI + "/search";
 
 server.get(api, async (request, reply) => {
     const query = request.query.q;
-    if (query.length < 4) {
+    let loadMaxPage = request.query.load_all === "true" || false;
+
+    if (!query || query.length < 4) {
         return reply.code(400).send({
             message: "Please enter a valid query (Min 4 char)"
         });
     }
-    const data = await search(query);
+    const data = await search(query, loadMaxPage);
+
+    if (!data || data.length === 0) {
+        return reply.code(404).send({
+            message: "No results found"
+        });
+    }
+
     return reply.code(200).send({
         ...data
     });

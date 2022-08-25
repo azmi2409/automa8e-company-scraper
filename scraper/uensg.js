@@ -2,13 +2,15 @@ import puppeteer from 'puppeteer-extra'
 import * as cheerio from 'cheerio'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 
-const search = async (params = 'aUtoma8e') => {
+const TO = process.env.SERVER_TIMEOUT || 5000
+
+const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     puppeteer.use(StealthPlugin())
 
     console.time("fetch time")
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     })
 
@@ -16,15 +18,27 @@ const search = async (params = 'aUtoma8e') => {
 
     await page.setViewport({ width: 800, height: 600 })
 
-    await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: 30000 })
+    await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
 
     await page.waitForSelector('input[name="pt1:r1:0:it1"]')
     await page.type('input[name="pt1:r1:0:it1"]', `${params}`)
     await page.click('.uenSearchButton');
 
-    await page.waitForSelector('span.uenlabel', { timeout: 10000 })
-    await page.select('select[name="pt1:r1:0:soc2"]', '3')
-    await page.waitForTimeout(200)
+    try {
+        await page.waitForSelector('span.uenlabel', { timeout: TO })
+    } catch (e) {
+        console.log(e)
+        await browser.close()
+        return []
+    }
+
+
+    if (loadMaxPage) {
+        await page.click('select[id="pt1:r1:0:soc2::content"]')
+        await page.waitForSelector('select[id="pt1:r1:0:soc2::content"] > option[value="3"]')
+        await page.select('select[id="pt1:r1:0:soc2::content"]', '3')
+        await page.waitForTimeout(500)
+    }
 
     const html = await page.content()
     const $ = cheerio.load(html)
