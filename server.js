@@ -22,8 +22,8 @@ server.get(api, async (request, reply) => {
 })
 
 //Get host and port from env
-const host = process.env.HOST || "127.0.0.1"
-const port = process.env.PORT || 4000
+const host = process.env.SERVER_HOST || "127.0.0.1"
+const port = process.env.SERVER_PORT || 4000
 
 /**Run Server */
 const start = async () => {

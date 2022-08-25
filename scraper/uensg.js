@@ -22,7 +22,9 @@ const search = async (params = 'aUtoma8e') => {
     await page.type('input[name="pt1:r1:0:it1"]', `${params}`)
     await page.click('.uenSearchButton');
 
-    await page.waitForSelector('span.uenlabel')
+    await page.waitForSelector('span.uenlabel', { timeout: 10000 })
+    await page.select('select[name="pt1:r1:0:soc2"]', '3')
+    await page.waitForTimeout(200)
 
     const html = await page.content()
     const $ = cheerio.load(html)
