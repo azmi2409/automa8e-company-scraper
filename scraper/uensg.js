@@ -4,23 +4,20 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 import randomUserAgent from 'random-useragent'
 
 const TO = process.env.SERVER_TIMEOUT || 30000
+const UA = "Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko"
 
 const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     puppeteer.use(StealthPlugin())
 
     console.time("fetch time")
     const browser = await puppeteer.launch({
-        // executablePath: process.env.CHROME_PATH || '/usr/bin/chromium-browser',
+        executablePath: process.env.CHROME_PATH || '/usr/bin/chromium-browser',
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     })
     try {
         const page = await browser.newPage()
-<<<<<<< HEAD
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36')
-=======
-        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36');
->>>>>>> 7e834d2d2eb9f3b44126f034e4484948c0d32957
+        await page.setUserAgent(UA)
         await page.setViewport({ width: 800, height: 600 })
 
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
@@ -30,6 +27,7 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
         await page.click('button[id="pt1:r1:0:cBT"]');
 
         await page.waitForSelector('span.uenlabel', { timeout: TO })
+        // await new Promise(resolve => setTimeout(resolve, 1000))
 
         if (loadMaxPage) {
             await page.click('select[id="pt1:r1:0:soc2::content"]')
