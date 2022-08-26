@@ -10,6 +10,7 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
 
     console.time("fetch time")
     const browser = await puppeteer.launch({
+        executablePath: process.env.CHROME_PATH || '/usr/bin/chromium-browser',
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     })

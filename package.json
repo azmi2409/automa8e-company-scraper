@@ -1,6 +1,6 @@
 {
   "name": "automa8e-company-scraper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "scraper for sgpbussiness.com",
   "main": "index.js",
   "author": "azmi",
