@@ -1,6 +1,7 @@
 import puppeteer from 'puppeteer-extra'
 import * as cheerio from 'cheerio'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import randomUserAgent from 'random-useragent'
 
 const TO = process.env.SERVER_TIMEOUT || 1000
 
@@ -14,7 +15,7 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     })
     try {
         const page = await browser.newPage()
-
+        await page.setUserAgent(randomUserAgent.getRandom())
         await page.setViewport({ width: 800, height: 600 })
 
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
@@ -48,7 +49,7 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     }
     catch (e) {
         console.log(e)
-        throw new Error('error either no data / timeout')
+        throw new Error('error either no data / timeout' + e)
     } finally {
         await browser.close()
     }

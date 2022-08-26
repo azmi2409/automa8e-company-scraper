@@ -19,9 +19,12 @@ ENV SERVER_PORT 4000
 ENV SERVER_HOST 0.0.0.0
 ENV SERVER_TIMEOUT 5000
 
+COPY package.json /app
+
+RUN npm install --verbose
+
 COPY . /app/
 
-RUN npm install
 
 EXPOSE 4000
 
