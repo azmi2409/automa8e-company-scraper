@@ -16,7 +16,11 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     })
     try {
         const page = await browser.newPage()
+<<<<<<< HEAD
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36')
+=======
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36');
+>>>>>>> 7e834d2d2eb9f3b44126f034e4484948c0d32957
         await page.setViewport({ width: 800, height: 600 })
 
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
