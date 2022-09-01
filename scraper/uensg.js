@@ -16,8 +16,8 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     })
     try {
-        const page = await browser.newPage()
-        await page.setUserAgent(UA)
+        const [page] = await browser.pages()
+
         await page.setViewport({ width: 800, height: 600 })
 
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
