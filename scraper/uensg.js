@@ -1,13 +1,13 @@
 import puppeteer from 'puppeteer-extra'
 import * as cheerio from 'cheerio'
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-import randomUserAgent from 'random-useragent'
+import puppeteerExtraPluginAnonymizeUa from 'puppeteer-extra-plugin-anonymize-ua'
 
 const TO = process.env.SERVER_TIMEOUT || 30000
-const UA = "Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko"
 
 const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     puppeteer.use(StealthPlugin())
+    puppeteer.use(puppeteerExtraPluginAnonymizeUa())
 
     console.time("fetch time")
     const browser = await puppeteer.launch({
