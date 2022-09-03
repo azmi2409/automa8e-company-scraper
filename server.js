@@ -1,5 +1,6 @@
 import fastify from "fastify";
 import { search } from "./scraper/uensg.js";
+import { profile } from "./scraper/profile.js";
 
 const token = process.env.TOKEN || "";
 let keys
@@ -60,9 +61,16 @@ server.get(baseAPI + "/details", async (request, reply) => {
         });
     }
 
-    return reply.code(404).send({
-        message: `company ${company_name} not found`,
-        url: company_name_url
+    const data = await profile(company_name_url);
+
+    if (!data || data.length === 0) {
+        return reply.code(404).send({
+            message: `company ${company_name} not found`,
+            url: company_name_url
+        });
+    }
+    return reply.code(200).send({
+        ...data
     });
 }
 )

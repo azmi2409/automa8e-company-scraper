@@ -2,7 +2,7 @@ import * as cheerio from "cheerio";
 import { browser } from "./phantomcloud.js";
 import { profile } from "./profile.js";
 
-async function search({ URL, query, withDetails }) {
+async function search({ URL = 'https://www.sgpbusiness.com/', query, withDetails }) {
     const pageUrl = {
         url: `${URL}search?q=${query}`,
         renderType: "html",

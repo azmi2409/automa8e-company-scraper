@@ -1,10 +1,10 @@
 import * as cheerio from "cheerio";
 import { browser } from "./phantomcloud.js";
-
-async function profile(URL) {
+const URL = 'https://www.sgpbusiness.com/company/'
+async function profile(query) {
     //TODO: get profile data from URL
     const pageUrl = {
-        url: URL,
+        url: `${URL}${query}`,
         renderType: "html",
     }
 
