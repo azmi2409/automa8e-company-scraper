@@ -7,7 +7,7 @@ const TO = process.env.SERVER_TIMEOUT || 30000
 
 const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     puppeteer.use(StealthPlugin())
-    puppeteer.use(puppeteerExtraPluginAnonymizeUa())
+    // puppeteer.use(puppeteerExtraPluginAnonymizeUa())
 
     console.time("fetch time")
     const browser = await puppeteer.launch({
@@ -17,6 +17,8 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
     })
     try {
         const [page] = await browser.pages()
+
+        await page.setViewport({ width: 800, height: 600 })
 
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
 
