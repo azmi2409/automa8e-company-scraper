@@ -3,11 +3,13 @@ import { browser } from "./phantomcloud.js";
 import { profile } from "./profile.js";
 
 async function search({ URL = 'https://www.sgpbusiness.com/', query, withDetails }) {
+
     const pageUrl = {
         url: `${URL}search?q=${query}`,
         renderType: "html",
     }
     const res = await browser.requestSingle(pageUrl);
+
     const body = res.content.data;
 
     const $ = cheerio.load(body);
