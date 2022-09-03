@@ -51,7 +51,7 @@ server.get(api, async (request, reply) => {
 server.get(baseAPI + "/details", async (request, reply) => {
     const company_name = request.query.company_name;
     //regex remove . and replace space with -
-    const company_name_url = company_name.replace(/\.| /g, '-').toLowerCase();
+    const company_name_url = company_name.replace(/\s/g, '-').replace(/\./g, '').toLowerCase();
     console.log(company_name_url)
 
     if (!company_name || company_name.length < 4) {
