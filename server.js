@@ -61,7 +61,8 @@ server.get(baseAPI + "/details", async (request, reply) => {
     }
 
     return reply.code(404).send({
-        message: `company ${company_name} not found`
+        message: `company ${company_name} not found`,
+        url: company_name_url
     });
 }
 )
