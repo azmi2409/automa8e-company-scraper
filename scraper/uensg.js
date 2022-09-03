@@ -19,7 +19,9 @@ const search = async (params = 'aUtoma8e', loadMaxPage = false) => {
         const [page] = await browser.pages()
 
         await page.setViewport({ width: 800, height: 600 })
-
+        await page.setExtraHTTPHeaders({
+            'Accept-Language': 'en-US,en;q=0.9'
+        })
         await page.goto('https://www.uen.gov.sg/ueninternet/faces/pages/uenSrch.jspx', { waitUntil: 'load', timeout: TO })
 
         await page.waitForSelector('input[name="pt1:r1:0:it1"]')

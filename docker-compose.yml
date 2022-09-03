@@ -12,4 +12,5 @@ services:
       - "SERVER_HOST=0.0.0.0" # listen on all interfaces
       - "SERVER_TIMEOUT=30000" #timeout in ms
       - "TOKEN=" #Set your bearer token here
+      - "PHANTOMCLOUD_API_KEY=ak-n13bw-kgfz0-edsfv-s3wgx-kf4g1" #Set your PhantomCloud API key here
     command: npm start

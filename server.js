@@ -48,6 +48,24 @@ server.get(api, async (request, reply) => {
     });
 })
 
+server.get(baseAPI + "/details", async (request, reply) => {
+    const company_name = request.query.company_name;
+    //regex remove . and replace space with -
+    const company_name_url = company_name.replace(/\.| /g, '-').toLowerCase();
+    console.log(company_name_url)
+
+    if (!company_name || company_name.length < 4) {
+        return reply.code(400).send({
+            message: "Please enter a valid query (Min 4 char)"
+        });
+    }
+
+    return reply.code(404).send({
+        message: `company ${company_name} not found`
+    });
+}
+)
+
 //Get host and port from env
 const host = process.env.SERVER_HOST || "127.0.0.1"
 const port = process.env.SERVER_PORT || 4000
