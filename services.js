@@ -29,6 +29,7 @@ async function details(request, reply) {
 async function mainSearch(request, reply) {
     const query = request.query.q;
     let loadMaxPage = request.query.load_all === "true" || false;
+    let withDetails = request.query.with_details === "true" || false;
 
     if (!query || query.length < 4) {
         return reply.code(400).send({
@@ -40,6 +41,17 @@ async function mainSearch(request, reply) {
     if (!data || data.length === 0) {
         return reply.code(404).send({
             message: "No results found"
+        });
+    }
+
+    let details = []
+
+    if (withDetails && data.length === 1) {
+        const company_name_url = data[0]?.["Entity Name"]?.replace(/\s/g, '-').replace(/\./g, '').toLowerCase();
+        details = await profile(company_name_url);
+        return reply.code(200).send({
+            ...data,
+            ...details
         });
     }
 
