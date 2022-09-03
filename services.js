@@ -49,9 +49,9 @@ async function mainSearch(request, reply) {
     if (withDetails && data.length === 1) {
         const company_name_url = data[0]?.["Entity Name"]?.replace(/\s/g, '-').replace(/\./g, '').toLowerCase();
         details = await profile(company_name_url);
+        data[0] = { ...data[0], ...details }
         return reply.code(200).send({
-            ...data,
-            ...details
+            ...data
         });
     }
 
